@@ -83,6 +83,7 @@ const ctx = canvas.getContext('2d');
 const bubbles = [];
 
 const connections = [];
+let lastSpokenIntent = null;
 let pendingConnectionFrom = null;
 let selectedBubble = null;
 let isConnectMode = false;
@@ -879,6 +880,63 @@ controlPanel.querySelector('#exportImageBtn').addEventListener('click', () => {
   link.click();
 });
 
+// Generate from prompt
+controlPanel.querySelector('#generateFromPrompt').addEventListener('click', () => {
+  const prompt = document.getElementById('promptInput').value.trim();
+  if (!prompt) return alert("Type something first!");
+
+  // Create center bubble
+  const centerX = camX + window.innerWidth / 2 / zoom;
+  const centerY = camY + window.innerHeight / 2 / zoom;
+
+  const centerBubble = createBubble(prompt, centerX, centerY, 'idea');
+
+  // Generate related ideas
+  const related = [
+    `Why is "${prompt}" important?`,
+    `How does "${prompt}" affect others?`,
+    `What comes after "${prompt}"?`,
+    `Obstacles to "${prompt}"`,
+    `Steps to achieve "${prompt}"`
+  ];
+
+  shuffleArray(related);
+  const count = Math.floor(Math.random() * 3) + 3; // 3–5
+
+  for (let i = 0; i < count; i++) {
+    const angle = (Math.PI * 2 / count) * i;
+    const radius = 220;
+    const x = centerX + Math.cos(angle) * radius;
+    const y = centerY + Math.sin(angle) * radius;
+
+    const childBubble = createBubble(related[i], x, y, 'question');
+    connections.push({ from: centerBubble, to: childBubble, label: '' });
+  }
+
+  updateSidebar();
+  saveSnapshot();
+});
+
+// Add bubble at random position
+controlPanel.querySelector('#addBubbleBtn').addEventListener('click', () => {
+  const x = camX + Math.random() * (window.innerWidth - 300);
+  const y = camY + Math.random() * (window.innerHeight - 200);
+  const bubble = createBubble("New idea", x, y, 'idea');
+  updateSidebar();
+  saveSnapshot();
+});
+
+// Start from center with a single bubble
+controlPanel.querySelector('#centerBubbleBtn').addEventListener('click', () => {
+  const centerX = camX + window.innerWidth / 2 / zoom;
+  const centerY = camY + window.innerHeight / 2 / zoom;
+  const bubble = createBubble("Central Idea", centerX, centerY, 'idea');
+  updateSidebar();
+  saveSnapshot();
+});
+
+
+
 
 // Clear map with confirmation
 controlPanel.querySelector('#clearMap').addEventListener('click', () => {
@@ -964,6 +1022,49 @@ document.getElementById('playStop').addEventListener('click', () => {
   orderedPlayback = [];
   playbackIndex = 0;
 });
+
+function createBubble(text, x, y, type = 'idea') {
+  const bubble = document.createElement('div');
+  bubble.className = `bubble ${type}`;
+  bubble.style.position = 'absolute';
+
+  const textSpan = document.createElement('span');
+  textSpan.className = 'bubble-text';
+  textSpan.textContent = text;
+  bubble.appendChild(textSpan);
+
+  const data = {
+    el: bubble,
+    x,
+    y,
+    dragging: false,
+    locked: false,
+    visible: true,
+    order: null,
+    type,
+    textEl: textSpan
+  };
+
+  const idLabel = document.createElement('div');
+  idLabel.className = 'bubble-id-label';
+  bubble.appendChild(idLabel);
+  data.idLabel = idLabel;
+
+  enableDragging(bubble, data);
+  enableBubbleInteractions(bubble, data);
+
+  document.body.appendChild(bubble);
+  bubbles.push(data);
+  return data;
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
 
 
 
