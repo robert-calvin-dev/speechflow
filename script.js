@@ -1050,6 +1050,45 @@ function createBubble(text, x, y, type = 'idea') {
   bubble.appendChild(idLabel);
   data.idLabel = idLabel;
 
+    bubble.addEventListener('dblclick', () => {
+    const input = prompt("Set playback order number or type 'edit' or 'delete':");
+    if (input === 'delete') {
+      document.body.removeChild(bubble);
+      const index = bubbles.indexOf(data);
+      if (index > -1) bubbles.splice(index, 1);
+      for (let i = connections.length - 1; i >= 0; i--) {
+        if (connections[i].from === data || connections[i].to === data) {
+          connections.splice(i, 1);
+        }
+      }
+      updateSidebar();
+      return;
+    } else if (input === 'edit') {
+      const newText = prompt("New text:", data.textEl.textContent);
+      if (newText) {
+        data.textEl.textContent = newText.charAt(0).toUpperCase() + newText.slice(1);
+      }
+      updateSidebar();
+      return;
+    } else if (input === 'type') {
+      const newType = prompt("Enter type: idea, task, question, blocker, note", data.type);
+      const allowed = ['idea', 'task', 'question', 'blocker', 'note'];
+      if (allowed.includes(newType)) {
+        data.type = newType;
+        bubble.className = `bubble ${newType}`;
+        saveSnapshot();
+      } else {
+        alert("Invalid type");
+      }
+      return;
+    } else {
+      data.order = parseInt(input);
+      bubble.classList.add('locked');
+    }
+    updateSidebar();
+  });
+
+
   enableDragging(bubble, data);
   enableBubbleInteractions(bubble, data);
 
