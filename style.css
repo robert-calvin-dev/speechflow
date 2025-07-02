@@ -1,0 +1,161 @@
+ * {
+  box-sizing: border-box
+ }
+ 
+
+ body {
+  margin: 0;
+  overflow: hidden;
+  background: #00eeff;
+  font-family: 'Segoe UI', sans-serif
+ }
+
+ canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0
+ }
+
+.bubble {
+  padding: 30px;
+  border-radius: 40%;
+  background: black;
+  color: white;
+  font-size: 16px;
+  cursor: grab;
+  user-select: none;
+  z-index: 2;
+  max-width: 300px;
+}
+
+
+.bubble:hover {
+  transform: scale(1.07) rotateX(4deg) rotateY(-6deg); /* Adds slight perspective twist */
+  box-shadow:
+    inset -4px -4px 12px rgba(255, 255, 255, 0.15),
+    inset 4px 4px 14px rgba(0, 0, 0, 0.5),
+    0 12px 25px rgba(0, 0, 0, 0.75);
+}
+
+ @keyframes fadeIn {
+  from {
+   opacity: 0;
+   transform: scale(.8)
+  }
+
+  to {
+   opacity: 1;
+   transform: scale(1)
+  }
+ }
+
+ .status {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  background: #1a1a1a;
+  color: #0f0;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 10;
+  box-shadow: 0 0 5px #0f0
+ }
+
+ .bubble.locked {
+  border: 2px solid #f24e1e;
+  box-shadow: 0 0 15px #f24e1e, 0 0 30px rgba(242, 78, 30, .3);
+  cursor: not-allowed;
+ }
+
+ .bubble.locked-highlight {
+  box-shadow: 0 0 20px #fff000, 0 0 40px rgba(255, 240, 0, .4);
+  border: 2px dashed #fff000;
+ }
+
+ #playBtn {
+  position: fixed;
+  bottom: 70px;
+  left: 20px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background: #00cc66;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, .25);
+  cursor: pointer;
+  z-index: 9999;
+ }
+ .bubble.idea    { background-color: #2a008c; border-left: 4px solid #00bcd4; }
+.bubble.task    { background-color: #3c7000; border-left: 4px solid #8bc34a; }
+.bubble.question{ background-color: #b06c00; border-left: 4px solid #ff9800; }
+.bubble.blocker { background-color: #a40019; border-left: 4px solid #f44336; }
+.bubble.note    { background-color: #230058; border-left: 4px solid #673ab7; }
+.bubble.active {
+  outline: 3px solid #F24E1E;
+  z-index: 9999;
+}
+
+.bubble-id-label {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-size: 11px;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 2px 6px;
+  border-radius: 6px;
+  pointer-events: none;
+  margin: 3px;
+}
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px; /* or whatever */
+  height: 100vh;
+  background: #111;
+  color: white;
+  z-index: 1000;
+  overflow-y: auto;
+  border-left: 2px solid var(--blood-orange);
+}
+
+#sidebar h2 {
+  margin-top: 0;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid #555;
+  padding-bottom: 8px;
+}
+
+#bubbleList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#bubbleList li {
+  padding: 8px;
+  margin-bottom: 6px;
+  background: #222;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+#bubbleList li:hover {
+  background: #333;
+}
+
+#bubbleList li.active {
+  border-left-color: #F24E1E;
+  background: #333;
+}
+
+
+
+

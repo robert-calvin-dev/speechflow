@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mind Map Speech Dictator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="sidebar">
+    <h2>🧠 Bubbles</h2>
+    <ul id="bubbleList"></ul>
+
+    <div class="status">🎙️ Listening...</div>
+    <button id="playBtn">▶ Play</button>
+    <div id="playControls">
+  <button id="playStart">▶️ Play</button>
+  <button id="playPause">⏸ Pause</button>
+  <button id="playResume">▶️ Resume</button>
+  <button id="playStop">⏹ Stop</button>
+</div>
+
+    <div id="io-controls">
+      <button id="exportMap">⬇ Export Map</button>
+      <input type="file" id="importMap" style="display:none" accept=".json">
+      <button id="importMapBtn">⬆ Import Map</button>
+    </div>
+  </div>
+
+  <canvas id="connections"></canvas>
+  <canvas id="clickLayer" style="position:absolute;top:0;left:0;z-index:2"></canvas>
+
+  <div id="controlPanel" style="position:fixed;top:20px;right:20px;z-index:9999;background:#111;padding:10px;border-radius:8px;color:white;font-family:sans-serif">
+    <button data-type="idea">💡 Idea</button>
+    <button data-type="task">✅ Task</button>
+    <button data-type="question">❓ Question</button>
+    <button data-type="blocker">⛔ Blocker</button>
+    <button data-type="note">📝 Note</button>
+    <hr>
+    <button id="lockToggle">🔒 Lock/Unlock</button>
+    <button id="deleteBubble">🗑️ Delete</button>
+    <button id="quickConnect">🔗 Connect</button>
+    <hr>
+    <button id="centerView">🎯 Center View</button>
+    <button id="clearMap">🧹 Clear Map</button>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
