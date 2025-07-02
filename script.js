@@ -126,8 +126,21 @@ window.addEventListener('wheel', (e) => {
 recognition.onresult = (e) => {
   const last = e.results.length - 1;
   const raw = e.results[last][0].transcript.trim();
-  const transcript = raw.charAt(0).toUpperCase() + raw.slice(1);
   const text = raw.toLowerCase();
+
+  if (handleTriggers(text)) return;
+
+  let transcript = raw;
+
+  if (lastSpokenIntent === 'question' && transcript.toLowerCase().startsWith("question ")) {
+    transcript = transcript.slice(9).trim();
+  }
+
+  transcript = transcript.charAt(0).toUpperCase() + transcript.slice(1);
+
+  if (lastSpokenIntent === 'question' && !transcript.endsWith('?')) {
+    transcript += '?';
+  }
 
   if (handleTriggers(text)) return;
 
@@ -146,7 +159,7 @@ y = camY + Math.random() * (window.innerHeight - 100);
   const bubble = document.createElement('div');
   bubble.style.position = 'absolute'; // ✅ REQUIRED
 
-  const data = { el: bubble, x, y, dragging: false, locked: false, visible: true, order: null, type: 'idea' };
+  const data = { el: bubble, x, y, dragging: false, locked: false, visible: true, order: null, type: lastSpokenIntent ||'idea' };
   bubble.className = `bubble ${data.type}`;
   const textSpan = document.createElement('span');
 textSpan.className = 'bubble-text';
@@ -223,6 +236,8 @@ else {
   enableBubbleInteractions(bubble, data);
 
 bubbles.push(data);
+lastSpokenIntent = null;
+
 
 
   updateSidebar();
@@ -248,14 +263,22 @@ function handleTriggers(text) {
     connections.length = 0;
     return true;
   }
+
   if (text.includes('connect mode')) {
     isConnectMode = !isConnectMode;
     selectedBubble = null;
     alert(`Connect mode ${isConnectMode ? 'enabled' : 'disabled'}`);
     return true;
   }
+
+  if (text.startsWith('question ')) {
+    lastSpokenIntent = 'question';
+    return false; // allow bubble creation to proceed
+  }
+
   return false;
 }
+
 
 function speakText(text) {
   if (!window.speechSynthesis) {
