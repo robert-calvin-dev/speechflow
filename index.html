@@ -8,7 +8,8 @@
 </head>
 <body>
   <div id="sidebar">
-    <h2>🧠 Bubbles</h2>
+    <img class="logo" src="/assets/images/SpeechFlow.png" alt="SpeechFlow Logo">
+    <h2>Bubbles</h2>
     <ul id="bubbleList"></ul>
 
     <div class="status">🎙️ Listening...</div>
@@ -36,20 +37,22 @@
     <button data-type="question">❓ Question</button>
     <button data-type="blocker">⛔ Blocker</button>
     <button data-type="note">📝 Note</button>
-    <hr>
     <button id="lockToggle">🔒 Lock/Unlock</button>
     <button id="deleteBubble">🗑️ Delete</button>
     <button id="quickConnect">🔗 Connect</button>
-    <hr>
+
     <button id="centerView">🎯 Center View</button>
     <button id="exportImageBtn">📸 Export Image</button>
-<input type="text" id="promptInput" placeholder="Type an idea..." style="width: 100%; margin: 10px 0; padding: 6px;">
-<button id="generateFromPrompt">🧠 Create from Prompt</button>
-<button id="addBubbleBtn">➕ Add Bubble</button>
+    <button id="addBubbleBtn">➕ Add Bubble</button>
 <button id="centerBubbleBtn">🎯 Start from Center</button>
 
     
     <button id="clearMap">🧹 Clear Map</button>
+    <hr>
+       
+<input type="text" id="promptInput" placeholder="Type an idea..." style="width: 50%; margin: 10px 0; padding: 6px;">
+<button id="generateFromPrompt">🧠 Create from Prompt</button>
+
   </div>
 
   <script src="/script.js"></script>

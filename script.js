@@ -880,6 +880,39 @@ controlPanel.querySelector('#exportImageBtn').addEventListener('click', () => {
   link.click();
 });
 
+// Add bubble at random position
+controlPanel.querySelector('#addBubbleBtn').addEventListener('click', () => {
+  const x = camX + Math.random() * (window.innerWidth - 300);
+  const y = camY + Math.random() * (window.innerHeight - 200);
+  const bubble = createBubble("New idea", x, y, 'idea');
+  updateSidebar();
+  saveSnapshot();
+});
+
+// Start from center with a single bubble
+controlPanel.querySelector('#centerBubbleBtn').addEventListener('click', () => {
+  const centerX = camX + window.innerWidth / 2 / zoom;
+  const centerY = camY + window.innerHeight / 2 / zoom;
+  const bubble = createBubble("Central Idea", centerX, centerY, 'idea');
+  updateSidebar();
+  saveSnapshot();
+});
+
+
+
+
+// Clear map with confirmation
+controlPanel.querySelector('#clearMap').addEventListener('click', () => {
+  if (confirm("Are you sure you want to clear the entire map?")) {
+    document.querySelectorAll('.bubble').forEach(b => b.remove());
+    bubbles.length = 0;
+    connections.length = 0;
+    activeBubble = null;
+    saveSnapshot();
+    updateSidebar();
+  }
+});
+
 // Generate from prompt
 controlPanel.querySelector('#generateFromPrompt').addEventListener('click', () => {
   const prompt = document.getElementById('promptInput').value.trim();
@@ -917,38 +950,7 @@ controlPanel.querySelector('#generateFromPrompt').addEventListener('click', () =
   saveSnapshot();
 });
 
-// Add bubble at random position
-controlPanel.querySelector('#addBubbleBtn').addEventListener('click', () => {
-  const x = camX + Math.random() * (window.innerWidth - 300);
-  const y = camY + Math.random() * (window.innerHeight - 200);
-  const bubble = createBubble("New idea", x, y, 'idea');
-  updateSidebar();
-  saveSnapshot();
-});
 
-// Start from center with a single bubble
-controlPanel.querySelector('#centerBubbleBtn').addEventListener('click', () => {
-  const centerX = camX + window.innerWidth / 2 / zoom;
-  const centerY = camY + window.innerHeight / 2 / zoom;
-  const bubble = createBubble("Central Idea", centerX, centerY, 'idea');
-  updateSidebar();
-  saveSnapshot();
-});
-
-
-
-
-// Clear map with confirmation
-controlPanel.querySelector('#clearMap').addEventListener('click', () => {
-  if (confirm("Are you sure you want to clear the entire map?")) {
-    document.querySelectorAll('.bubble').forEach(b => b.remove());
-    bubbles.length = 0;
-    connections.length = 0;
-    activeBubble = null;
-    saveSnapshot();
-    updateSidebar();
-  }
-});
 
 function updateSidebar() {
   const list = document.getElementById('bubbleList');
