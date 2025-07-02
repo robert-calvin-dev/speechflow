@@ -836,6 +836,50 @@ controlPanel.querySelector('#centerView').addEventListener('click', () => {
   }
 });
 
+// Export image
+controlPanel.querySelector('#exportImageBtn').addEventListener('click', () => {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  document.querySelectorAll('.bubble').forEach(bubble => {
+    const rect = bubble.getBoundingClientRect();
+    const style = getComputedStyle(bubble);
+
+    ctx.fillStyle = style.backgroundColor || '#000';
+    ctx.beginPath();
+    ctx.ellipse(
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2,
+      rect.width / 2,
+      rect.height / 2,
+      0, 0, 2 * Math.PI
+    );
+    ctx.fill();
+
+    const text = bubble.querySelector('.bubble-text')?.textContent || '';
+    ctx.fillStyle = style.color || '#fff';
+    ctx.font = '16px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(
+      text,
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2 + 6
+    );
+  });
+
+  const link = document.createElement('a');
+  link.download = 'speechflow_map.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+
+
 // Clear map with confirmation
 controlPanel.querySelector('#clearMap').addEventListener('click', () => {
   if (confirm("Are you sure you want to clear the entire map?")) {

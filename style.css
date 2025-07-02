@@ -6,12 +6,12 @@
  body {
   margin: 0;
   overflow: hidden;
-  background: #00eeff;
+  background: #dfd1ec;
   font-family: 'Segoe UI', sans-serif
  }
 
  canvas {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 0
@@ -100,7 +100,7 @@
 
 .bubble-id-label {
   position: absolute;
-  bottom: 6px;
+  top: 6px;
   right: 10px;
   font-size: 11px;
   color: #fff;
@@ -116,18 +116,18 @@
   left: 0;
   width: 280px; /* or whatever */
   height: 100vh;
-  background: #111;
+  background: #000000;
   color: white;
   z-index: 1000;
   overflow-y: auto;
-  border-left: 2px solid var(--blood-orange);
+  border-right: 2px solid rgb(255, 255, 255);
 }
 
 #sidebar h2 {
-  margin-top: 0;
+  margin-top: 10px;
   font-size: 18px;
   text-align: center;
-  border-bottom: 1px solid #555;
+  border-bottom: 1px solid #ffffff;
   padding-bottom: 8px;
 }
 
@@ -152,7 +152,7 @@
 }
 
 #bubbleList li.active {
-  border-left-color: #F24E1E;
+  border-left-color: #f2d91e;
   background: #333;
 }
 
